@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Profession Resource Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for better aesthetics */
+        .scrollable-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .scrollable-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background: #90a4ae; /* Blue-gray for professional feel */
+            border-radius: 10px;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb:hover {
+            background: #78909c;
+        }
+        /* Inter font setup */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .tab-button {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .active-tab {
+            border-color: #004d40; /* Dark Teal for accent */
+            color: #004d40;
+            background-color: #e0f2f1; /* Light Teal background */
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+    <div id="app" class="max-w-6xl mx-auto bg-white shadow-2xl rounded-xl overflow-hidden">
+        
+        <!-- Header -->
+        <header class="bg-[#004d40] p-6 rounded-t-xl">
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">
+                The Legal Compass: Your Guide to Law
+            </h1>
+            <p class="text-teal-200 mt-1">Explore different legal branches, career paths, and academic institutions.</p>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="p-4 sm:p-8">
+            
+            <!-- Navigation Tabs -->
+            <div class="flex flex-wrap gap-2 border-b-2 border-gray-200 pb-4 mb-6">
+                <button id="lawyers-tab" class="tab-button px-4 py-2 text-sm font-semibold rounded-lg border-2 border-transparent text-gray-600 hover:bg-gray-100" onclick="showSection('lawyers')">
+                    Lawyer Types & Cases
+                </button>
+                <button id="degrees-tab" class="tab-button px-4 py-2 text-sm font-semibold rounded-lg border-2 border-transparent text-gray-600 hover:bg-gray-100" onclick="showSection('degrees')">
+                    Master's Degrees (LL.M., etc.)
+                </button>
+                <button id="schools-tab" class="tab-button px-4 py-2 text-sm font-semibold rounded-lg border-2 border-transparent text-gray-600 hover:bg-gray-100" onclick="showSection('schools')">
+                    Top Law Schools
+                </button>
+            </div>
+
+            <!-- Content Container -->
+            <div id="content-container" class="scrollable-content h-[60vh] overflow-y-auto pr-2">
+                <!-- Content will be injected here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Structure
+        const legalData = {
+            lawyers: [
+                {
+                    type: "Corporate/Business Lawyer",
+                    branch: "Transactional Law, Securities Law",
+                    cases: "Mergers & Acquisitions (M&A), corporate governance, drafting contracts, compliance with regulations, initial public offerings (IPOs).",
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-indigo-600"><path d="M12 20V10"/><path d="M18.4 7.6L12 1.2 5.6 7.6 12 14 18.4 7.6Z"/><path d="M12 14v6"/><path d="M18 10h2v10h-2"/><path d="M4 10h2v10h-2"/></svg>'
+                },
+                {
+                    type: "Criminal Law Attorney",
+                    branch: "Criminal Defense, Prosecution",
+                    cases: "Felonies, misdemeanors, DUI/DWI, white-collar crimes (fraud), drug offenses. Defense attorneys represent the accused; Prosecutors represent the state.",
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-600"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>'
+                },
+                {
+                    type: "Family Law Attorney",
+                    branch: "Domestic Relations Law, Juvenile Justice",
+                    cases: "Divorce and separation, child custody and visitation, adoption, domestic violence restraining orders, prenuptial agreements.",
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-pink-600"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><circle cx="12" cy="3" r="4"/></svg>'
+                },
+                {
+                    type: "Intellectual Property (IP) Lawyer",
+                    branch: "Patent, Trademark, Copyright Law",
+                    cases: "Protecting inventions (patents), brand names (trademarks), original works (copyrights), licensing, IP infringement litigation.",
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-orange-600"><path d="M15 7h1a3 3 0 0 1 0 6h-1"/><path d="M9 17h-1a3 3 0 0 1 0-6h1"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'
+                },
+                {
+                    type: "Civil Litigation Lawyer",
+                    branch: "Tort Law, Contract Law, Employment Law",
+                    cases: "Personal injury (accidents, medical malpractice), breach of contract, property disputes, wrongful termination, class-action lawsuits.",
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-cyan-600"><path d="M12 2l-5.5 9h11z"/><path d="M3 22h18"/><path d="M12 9v13"/></svg>'
+                },
+                {
+                    type: "Environmental Lawyer",
+                    branch: "Natural Resources Law, Regulatory Compliance",
+                    cases: "Clean air/water act compliance, hazardous waste issues, land use permits, oil drilling regulations, defending against pollution lawsuits.",
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-green-600"><path d="M12 2l-6 10h12z"/><path d="M6 16c1.1 0 2 0.9 2 2s-0.9 2-2 2-2-0.9-2-2 0.9-2 2-2z"/><path d="M18 16c1.1 0 2 0.9 2 2s-0.9 2-2 2-2-0.9-2-2 0.9-2 2-2z"/></svg>'
+                },
+                {
+                    type: "Tax Lawyer",
+                    branch: "Taxation, Estate Planning",
+                    cases: "IRS disputes, structuring business transactions for tax efficiency, estate and gift tax planning, preparing wills and trusts.",
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-amber-600"><path d="M12 20V10"/><path d="M18 18H6"/><path d="M4 18h4"/><path d="M16 18h4"/><path d="M12 2a4 4 0 0 1 4 4v4h-8V6a4 4 0 0 1 4-4z"/></svg>'
+                }
+            ],
+            degrees: [
+                {
+                    degree: "LL.M. (Master of Laws)",
+                    description: "An advanced, post-J.D. degree designed for practicing lawyers to specialize in a specific field or for international lawyers to study U.S. law.",
+                    specializations: "Taxation, Intellectual Property, International Law, Environmental Law, Commercial Law, Dispute Resolution.",
+                    focus: "Deep specialization and expertise in a narrow area of law."
+                },
+                {
+                    degree: "J.S.D. / S.J.D. (Doctor of Juridical Science)",
+                    description: "The highest academic law degree, often pursued by those who wish to enter legal academia or engage in deep research.",
+                    specializations: "Legal Theory, Constitutional Law, International Human Rights (research focus).",
+                    focus: "Original research and scholarship; primarily an academic career track."
+                },
+                {
+                    degree: "M.L.S. / J.M. (Master of Legal Studies / Juris Master)",
+                    description: "Designed for non-lawyers (professionals in other fields) who need a deep understanding of legal principles for their job, but do not intend to practice law.",
+                    specializations: "Healthcare Compliance, Corporate Compliance, Human Resources Law, Cybersecurity Risk.",
+                    focus: "Applying legal knowledge to non-legal professional roles (e.g., HR, risk management, government)."
+                }
+            ],
+            schools: [
+                { rank: 1, name: "Yale Law School", notable_focus: "Law and Ethics, Constitutional Law" },
+                { rank: 2, name: "Stanford Law School", notable_focus: "Law and Policy, Technology Law" },
+                { rank: 3, name: "Harvard Law School", notable_focus: "International Law, Business Law" },
+                { rank: 4, name: "University of Chicago Law School", notable_focus: "Law and Economics, Intellectual Rigor" },
+                { rank: 5, name: "Columbia Law School", notable_focus: "Corporate Law, International and Comparative Law" },
+                { rank: 6, name: "New York University School of Law", notable_focus: "Tax Law, International Legal Studies, Criminal Law" },
+                { rank: 7, name: "University of Pennsylvania Carey Law School", notable_focus: "Interdisciplinary Focus (Wharton collaboration)" },
+                { rank: 8, name: "University of Virginia School of Law", notable_focus: "Collegial Environment, Public Service" },
+                { rank: 9, name: "Duke University School of Law", notable_focus: "Business Law, Global/Comparative Law" },
+                { rank: 10, name: "UC Berkeley School of Law", notable_focus: "Environmental Law, Intellectual Property" },
+            ]
+        };
+
+        const contentContainer = document.getElementById('content-container');
+        const tabButtons = document.querySelectorAll('.tab-button');
+
+        function clearActiveTabs() {
+            tabButtons.forEach(btn => btn.classList.remove('active-tab'));
+        }
+
+        function showSection(section) {
+            clearActiveTabs();
+            document.getElementById(`${section}-tab`).classList.add('active-tab');
+            contentContainer.innerHTML = ''; // Clear previous content
+
+            if (section === 'lawyers') {
+                renderLawyers();
+            } else if (section === 'degrees') {
+                renderDegrees();
+            } else if (section === 'schools') {
+                renderSchools();
+            }
+        }
+
+        function renderLawyers() {
+            const html = legalData.lawyers.map(item => `
+                <div class="bg-gray-50 p-5 mb-4 rounded-lg border-l-4 border-teal-600 shadow-md transition duration-300 hover:shadow-lg">
+                    <div class="flex items-center space-x-3">
+                        ${item.icon}
+                        <h2 class="text-xl font-bold text-gray-800">${item.type}</h2>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500 font-medium uppercase">Branch: ${item.branch}</p>
+                    <p class="mt-2 text-gray-600">
+                        <span class="font-semibold text-teal-700">Typical Cases:</span> ${item.cases}
+                    </p>
+                </div>
+            `).join('');
+            contentContainer.innerHTML = html;
+        }
+
+        function renderDegrees() {
+            const html = `
+                <p class="text-lg text-gray-700 mb-6">These are post-graduate legal degrees, typically pursued after earning the Juris Doctor (J.D.), or for non-lawyers seeking legal knowledge in specific industries.</p>
+                ${legalData.degrees.map(item => `
+                    <div class="bg-blue-50 p-5 mb-4 rounded-lg border-l-4 border-blue-600 shadow-md transition duration-300 hover:shadow-lg">
+                        <h2 class="text-2xl font-extrabold text-blue-800">${item.degree}</h2>
+                        <p class="mt-2 text-gray-600">${item.description}</p>
+                        <p class="mt-2 text-sm text-gray-700">
+                            <span class="font-semibold text-blue-700">Common Specializations:</span> ${item.specializations}
+                        </p>
+                        <p class="mt-1 text-sm text-gray-700">
+                            <span class="font-semibold text-blue-700">Primary Focus:</span> ${item.focus}
+                        </p>
+                    </div>
+                `).join('')}
+            `;
+            contentContainer.innerHTML = html;
+        }
+
+        function renderSchools() {
+            const html = `
+                <p class="text-lg text-gray-700 mb-6">A select list of highly-ranked U.S. Law Schools (T14) known for their competitive programs and wide range of specializations.</p>
+                <div class="space-y-3">
+                    ${legalData.schools.map(item => `
+                        <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-gray-700 text-white font-bold rounded-full text-lg">
+                                ${item.rank}
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">${item.name}</h3>
+                                <p class="text-sm text-gray-600">
+                                    <span class="font-medium text-gray-800">Known For:</span> ${item.notable_focus}
+                                </p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            contentContainer.innerHTML = html;
+        }
+
+        // Initial load: show the first section
+        window.onload = () => showSection('lawyers');
+    </script>
+
+</body>
+</html>
