@@ -141,16 +141,16 @@
                 }
             ],
             schools: [
-                { rank: 1, name: "Yale Law School", notable_focus: "Law and Ethics, Constitutional Law" },
-                { rank: 2, name: "Stanford Law School", notable_focus: "Law and Policy, Technology Law" },
-                { rank: 3, name: "Harvard Law School", notable_focus: "International Law, Business Law" },
-                { rank: 4, name: "University of Chicago Law School", notable_focus: "Law and Economics, Intellectual Rigor" },
-                { rank: 5, name: "Columbia Law School", notable_focus: "Corporate Law, International and Comparative Law" },
-                { rank: 6, name: "New York University School of Law", notable_focus: "Tax Law, International Legal Studies, Criminal Law" },
-                { rank: 7, name: "University of Pennsylvania Carey Law School", notable_focus: "Interdisciplinary Focus (Wharton collaboration)" },
-                { rank: 8, name: "University of Virginia School of Law", notable_focus: "Collegial Environment, Public Service" },
-                { rank: 9, name: "Duke University School of Law", notable_focus: "Business Law, Global/Comparative Law" },
-                { rank: 10, name: "UC Berkeley School of Law", notable_focus: "Environmental Law, Intellectual Property" },
+                { rank: 1, name: "Yale Law School", notable_focus: "Law and Ethics, Constitutional Law", median_gpa: "3.94" },
+                { rank: 2, name: "Stanford Law School", notable_focus: "Law and Policy, Technology Law", median_gpa: "3.92" },
+                { rank: 3, name: "Harvard Law School", notable_focus: "International Law, Business Law", median_gpa: "3.92" },
+                { rank: 4, name: "University of Chicago Law School", notable_focus: "Law and Economics, Intellectual Rigor", median_gpa: "3.91" },
+                { rank: 5, name: "Columbia Law School", notable_focus: "Corporate Law, International and Comparative Law", median_gpa: "3.88" },
+                { rank: 6, name: "New York University School of Law", notable_focus: "Tax Law, International Legal Studies, Criminal Law", median_gpa: "3.88" },
+                { rank: 7, name: "University of Pennsylvania Carey Law School", notable_focus: "Interdisciplinary Focus (Wharton collaboration)", median_gpa: "3.90" },
+                { rank: 8, name: "University of Virginia School of Law", notable_focus: "Collegial Environment, Public Service", median_gpa: "3.90" },
+                { rank: 9, name: "Duke University School of Law", notable_focus: "Business Law, Global/Comparative Law", median_gpa: "3.80" },
+                { rank: 10, name: "UC Berkeley School of Law", notable_focus: "Environmental Law, Intellectual Property", median_gpa: "3.81" },
             ]
         };
 
@@ -211,18 +211,23 @@
         }
 
         function renderSchools() {
+            // Note added to clarify that this GPA is for undergraduate studies, needed for law school.
             const html = `
-                <p class="text-lg text-gray-700 mb-6">A select list of highly-ranked U.S. Law Schools (T14) known for their competitive programs and wide range of specializations.</p>
+                <p class="text-lg text-gray-700 mb-6">A select list of highly-ranked U.S. Law Schools (T14) known for their competitive programs. Note: These GPA values are for **undergraduate** performance, required to apply to law school.</p>
                 <div class="space-y-3">
                     ${legalData.schools.map(item => `
                         <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-sm flex items-start space-x-4">
                             <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-gray-700 text-white font-bold rounded-full text-lg">
                                 ${item.rank}
                             </div>
-                            <div>
+                            <div class="flex-grow">
                                 <h3 class="text-xl font-semibold text-gray-800">${item.name}</h3>
                                 <p class="text-sm text-gray-600">
                                     <span class="font-medium text-gray-800">Known For:</span> ${item.notable_focus}
+                                </p>
+                                <!-- New GPA el[ement added and styled to stand out -->
+                                <p class="text-sm text-red-600 font-bold mt-1">
+                                    Median Undergraduate GPA: ${item.median_gpa}
                                 </p>
                             </div>
                         </div>
